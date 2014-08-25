@@ -1,35 +1,35 @@
-import java.util.Scanner;
-
+import java.util.Arrays;
 
 public class TextProcessor {
-	private static final String INSUFFICIENT_ARGS_ERROR = "Error, insufficient arguments.";
+	private static final String USAGE_PROMPT = "Usage: [TextProcessor] [Program name] [Arguments]";
 	
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		String yolo;
-		while (!(yolo = sc.next()).equals("exit")) {
-			runAction(yolo);
+		if (args.length == 0) {
+			System.out.println(USAGE_PROMPT);
+		} else {
+			runAction(args);
 		}
-		sc.close();
-	}
-	
-	private static void checkArguments(String[] args) {
-		if (args.length < 2) {
-			System.out.println(INSUFFICIENT_ARGS_ERROR);
-		}
-	}
 		
-	private static void runAction(String className) {
+		System.exit(0);
+	}
+	private static void runAction(String[] args) {
+		String feedback = "";
 		try {
-			Class actionClass = Class.forName(className);
+			Class actionClass = Class.forName(args[0]);
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
-				((Action) action).execute();
+				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
 			} else {
-				System.out.println("Error, no such commands");
+				feedback = "Error, no such program";
 			}
 		} catch (Exception e) {
-			System.out.println("There seems to be an error. Please try again.");
+			feedback = "There seems to be an error. Please try again.";
+		} finally {
+			printFeedback(feedback);
 		}
+	}
+	
+	private static void printFeedback(String s) {
+		System.out.println(s);
 	}
 }
