@@ -6,28 +6,26 @@ public class KWIC implements Action{
 	private static ArrayList<String> titleList;
 	
 	public void execute() {
-		getWordsToIgnore();
+		//getWordsToIgnore();
 		getTitleList();
-		
-		ArrayList<String> list = stringRotate();
-		for (int i = 0; i< list.size(); i++) {
-			System.out.println(list.get(i));
-		}
+		getKWIC();
+		//print or return 
 	}
 	
-	private void getKWIC() {
+	private ArrayList<String> getKWIC() {
+		ArrayList<String> processedList = new ArrayList<String>();
 		for (int i = 0 ; i < titleList.size(); i++) {
-			
+			processedList.addAll(stringRotate(titleList.get(i)));
 		}
 		
-		
+		Collections.sort(processedList);
+		return processedList;
 	}
 	
-	public ArrayList<String> stringRotate() {
+	public ArrayList<String> stringRotate(String title) {
 		ArrayList<String> wordList = new ArrayList<String>();
 		
-		String test = "The Day After Tomorrow And Yesterday";
-		String[] tokens = test.split(" ");
+		String[] tokens = title.split(" ");
 		for (int i = 0; i < tokens.length; i++) {
 			if (!isNonKey(tokens[i])) {
 				wordList.add(stringRecombine(tokens, i));
@@ -55,12 +53,12 @@ public class KWIC implements Action{
 	}
 	
 	// All words to ignore are converted to uppercase
-	private void getWordsToIgnore() {
+	private void getWordsToIgnore(String fileName) {
 		ArrayList<String> list = new ArrayList<String>();
 		
 	}
 	
-	private void getTitleList() {
+	private void getTitleList(String fileName) {
 		ArrayList<String> list = new ArrayList<String>();
 	}
 }
