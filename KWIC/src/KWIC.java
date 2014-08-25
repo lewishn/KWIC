@@ -8,25 +8,23 @@ public class KWIC implements Action{
 	private static ArrayList<String> ignoreList;
 	private static ArrayList<String> titleList;
 	
-	public void execute() {
+	public void execute() throws IOException {
 		// TODO: enter the file path
-		getWordsToIgnore("");
-		getTitleList("");
-		
-		ArrayList<String> list = stringRotate("The Day After Tomorrow And Yesterday");
-		list.sort(new SortWithoutCase());
-		for (int i = 0; i< list.size(); i++) {
-			System.out.println(list.get(i));
-		}
+		getWordsToIgnore("Documents/WordsToIgnore");
+		getTitleList("Documents/Titles");
+		getKWIC();
 	}
 	
-	private void getKWIC() {
+	private void getKWIC() throws IOException {
 		ArrayList<String> kwicOfTitles = new ArrayList<String>();
 		for (int i = 0 ; i < titleList.size(); i++) {
-			stringRotate(titleList.get(i));
+			kwicOfTitles.addAll(stringRotate(titleList.get(i)));
 		}
 		// Sort the output alphabetically
 		kwicOfTitles.sort(new SortWithoutCase());
+		for (int i = 0; i< kwicOfTitles.size(); i++) {
+			System.out.println(kwicOfTitles.get(i));
+		}
 		setResult(kwicOfTitles);
 	}
 	
@@ -63,51 +61,42 @@ public class KWIC implements Action{
 	/**
 	 * Calls the SimpleFileReader to read out the words to ignore from a file.
 	 * @param filepath
+	 * @throws IOException 
 	 */
-	private void getWordsToIgnore(String filepath) {
+	private void getWordsToIgnore(String filepath) throws IOException {
 		ignoreList = new ArrayList<String>();
 		if (filepath == "") return;
-		try {
 			SimpleFileReader reader = new SimpleFileReader(filepath);
 			String [] fileContent = reader.fileContent.split(System.lineSeparator());
 			for (String word : fileContent) {
 				// All words to ignore are converted to uppercase
 				ignoreList.add(word.toUpperCase());
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**
 	 * Calls the SimpleFileReader to read the titles for KWIC from a given file.
 	 * @param filepath
+	 * @throws IOException 
 	 */
-	private void getTitleList(String filepath) {
+	private void getTitleList(String filepath) throws IOException {
 		titleList = new ArrayList<String>();
 		if (filepath == "") return;
-		try {
 			SimpleFileReader reader = new SimpleFileReader(filepath);
 			String [] fileContent = reader.fileContent.split(System.lineSeparator());
 			for (String title : fileContent) {
 				titleList.add(title);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**
 	 * Writes the result of KWIC into a file.
 	 * @param kwicOfTitles
+	 * @throws IOException 
 	 */
-	private void setResult(ArrayList<String> kwicOfTitles) {
+	private void setResult(ArrayList<String> kwicOfTitles) throws IOException {
 		String[] textToWrite = new String[kwicOfTitles.size()];
 		kwicOfTitles.toArray(textToWrite);
-		try {
 			SimpleFileWriter writer = new SimpleFileWriter(textToWrite);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

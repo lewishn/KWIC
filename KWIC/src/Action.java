@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public interface Action {
-	public void execute();
+	public void execute() throws IOException;
 }
