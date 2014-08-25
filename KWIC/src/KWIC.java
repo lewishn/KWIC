@@ -3,12 +3,24 @@ import java.util.Collections;
 
 public class KWIC implements Action{
 	private static ArrayList<String> ignoreList;
+	private static ArrayList<String> titleList;
 	
 	public void execute() {
+		getWordsToIgnore();
+		getTitleList();
+		
 		ArrayList<String> list = stringRotate();
 		for (int i = 0; i< list.size(); i++) {
 			System.out.println(list.get(i));
 		}
+	}
+	
+	private void getKWIC() {
+		for (int i = 0 ; i < titleList.size(); i++) {
+			
+		}
+		
+		
 	}
 	
 	public ArrayList<String> stringRotate() {
@@ -16,16 +28,12 @@ public class KWIC implements Action{
 		
 		String test = "The Day After Tomorrow And Yesterday";
 		String[] tokens = test.split(" ");
-		/*
 		for (int i = 0; i < tokens.length; i++) {
 			if (!isNonKey(tokens[i])) {
 				wordList.add(stringRecombine(tokens, i));
 			}
 		}
 		
-		
-		Collections.sort(wordList);
-		*/
 		return wordList;
 	}
 	
@@ -42,19 +50,17 @@ public class KWIC implements Action{
 		return word;
 	}
 	
-	/*
 	public boolean isNonKey(String word) {
-		for (int i = 0; i < keys.length; i++) {
-			if (word.equalsIgnoreCase(keys[i])) {
-				return true;
-			}
-		}
-		return false;
+		return ignoreList.contains(word.toUpperCase());
 	}
-	*/
 	
+	// All words to ignore are converted to uppercase
 	private void getWordsToIgnore() {
 		ArrayList<String> list = new ArrayList<String>();
 		
+	}
+	
+	private void getTitleList() {
+		ArrayList<String> list = new ArrayList<String>();
 	}
 }
