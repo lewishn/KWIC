@@ -13,31 +13,33 @@ public class KWIC implements Action{
 		getWordsToIgnore("");
 		getTitleList("");
 		
-		ArrayList<String> list = stringRotate();
+		ArrayList<String> list = stringRotate("The Day After Tomorrow And Yesterday");
+		list.sort(new SortWithoutCase());
 		for (int i = 0; i< list.size(); i++) {
 			System.out.println(list.get(i));
 		}
 	}
 	
 	private void getKWIC() {
+		ArrayList<String> kwicOfTitles = new ArrayList<String>();
 		for (int i = 0 ; i < titleList.size(); i++) {
-			
+			stringRotate(titleList.get(i));
 		}
-		
-		
+		// Sort the output alphabetically
+		kwicOfTitles.sort(new SortWithoutCase());
+		setResult(kwicOfTitles);
 	}
 	
-	private ArrayList<String> stringRotate() {
+
+	private ArrayList<String> stringRotate(String stringToRotate) {
 		ArrayList<String> wordList = new ArrayList<String>();
 		
-		String test = "The Day After Tomorrow And Yesterday";
-		String[] tokens = test.split(" ");
+		String[] tokens = stringToRotate.split(" ");
 		for (int i = 0; i < tokens.length; i++) {
 			if (!isNonKey(tokens[i])) {
 				wordList.add(stringRecombine(tokens, i));
 			}
 		}
-		
 		return wordList;
 	}
 	
@@ -90,6 +92,20 @@ public class KWIC implements Action{
 			for (String title : fileContent) {
 				titleList.add(title);
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Writes the result of KWIC into a file.
+	 * @param kwicOfTitles
+	 */
+	private void setResult(ArrayList<String> kwicOfTitles) {
+		String[] textToWrite = new String[kwicOfTitles.size()];
+		kwicOfTitles.toArray(textToWrite);
+		try {
+			SimpleFileWriter writer = new SimpleFileWriter(textToWrite);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
