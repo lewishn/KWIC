@@ -25,6 +25,7 @@ public class KWIC implements Action{
 		for (int i = 0; i< kwicOfTitles.size(); i++) {
 			System.out.println(kwicOfTitles.get(i));
 		}
+		//write the result in a new file.
 		setResult(kwicOfTitles);
 	}
 	
@@ -42,8 +43,9 @@ public class KWIC implements Action{
 	}
 	
 	private String stringRecombine(String[] tokens, int index) {
-		String word = "";
-		for (int i = index; i < tokens.length; i++) {
+		// Keyword must start with upper case letter
+		String word = tokens[index].substring(0, 1).toUpperCase() + tokens[index].substring(1) + " ";
+		for (int i = index + 1; i < tokens.length; i++) {
 			word += tokens[i] + " ";
 		}
 		for (int i = 0; i < index; i++) {
