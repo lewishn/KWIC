@@ -24,7 +24,10 @@ public class TextProcessor {
 			Class actionClass = Class.forName(className);
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
+				long startTime = System.currentTimeMillis();
 				((Action) action).execute();
+				long endTime = System.currentTimeMillis();
+				System.out.println("Done! That took " + (endTime - startTime) + " milliseconds");
 			} else {
 				System.out.println("Error, no such commands");
 			}

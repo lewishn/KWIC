@@ -11,7 +11,7 @@ public class KWIC implements Action{
 	public void execute() throws IOException {
 		// TODO: enter the file path
 		getWordsToIgnore("Documents/WordsToIgnore");
-		getTitleList("Documents/Titles");
+		getTitleList("Documents/Titles_1000");
 		getKWIC();
 	}
 	
@@ -22,9 +22,11 @@ public class KWIC implements Action{
 		}
 		// Sort the output alphabetically
 		kwicOfTitles.sort(new SortWithoutCase());
-		for (int i = 0; i< kwicOfTitles.size(); i++) {
-			System.out.println(kwicOfTitles.get(i));
-		}
+		
+//		for (int i = 0; i< kwicOfTitles.size(); i++) {
+//			System.out.println(kwicOfTitles.get(i));
+//		}
+		
 		//write the result in a new file.
 		setResult(kwicOfTitles);
 	}
