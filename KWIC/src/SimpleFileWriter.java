@@ -26,6 +26,11 @@ public class SimpleFileWriter {
 			writeTextToFile();
 	}
 	
+	/**
+	 * writes the text to write in a file using FileWriter. If there is any problem with 
+	 * the file path it throws an IOException.
+	 * @throws IOException
+	 */
 	private void writeTextToFile() throws IOException{
 		File file = new File (filePath);
 		file.createNewFile();
