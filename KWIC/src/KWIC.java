@@ -19,8 +19,7 @@ public class KWIC implements Action{
 			getWordsToIgnore(args[1]);
 			String result = getKwicList();
 			setResult(result, args[0]);
-			//return result;
-			return "";
+			return result;
 		}
 	}
 	
@@ -38,11 +37,7 @@ public class KWIC implements Action{
 			processedList.addAll(stringRotate(titleList.get(i)));
 		}
 		
-		System.out.println(processedList.size());
 		Collections.sort(processedList);
-		for (String s : processedList) {
-			System.out.println(s);
-		}
 		
 		return getCombinedKwicList(processedList);
 	}
