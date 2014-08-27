@@ -27,9 +27,10 @@ public class SimpleFileWriter {
 		file.createNewFile();
 		
 		FileWriter fw = new FileWriter(file);
-		fw.write(fileContent);
-		fw.flush();
-		fw.close();
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(fileContent);
+		bw.flush();
+		bw.close();
 		
 	}
 }

@@ -22,6 +22,7 @@ public class TextProcessor {
 				long startTime = System.currentTimeMillis();
 				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
 				long endTime = System.currentTimeMillis();
+				feedback += "\n" + (endTime - startTime);
 				printFeedback("Done! That took " + (endTime - startTime) + " milliseconds");
 			} else {
 				feedback = "Error, no such program";

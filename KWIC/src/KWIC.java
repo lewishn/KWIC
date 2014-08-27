@@ -37,7 +37,7 @@ public class KWIC implements Action{
 			processedList.addAll(stringRotate(titleList.get(i)));
 		}
 		
-		Collections.sort(processedList);
+		Collections.sort(processedList, new SortWithoutCase());
 		
 		return getCombinedKwicList(processedList);
 	}
