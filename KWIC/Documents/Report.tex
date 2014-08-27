@@ -5,9 +5,20 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{positioning}
 \usepackage{graphicx}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \begin{document}
+
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=7em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+
 \chapter*{Assignement 1: KWIC-KWAC-KWOC}
 
 Code Repository URL: \url{https://github.com/lewishn/KWIC.git} 
@@ -25,6 +36,33 @@ Matriculation Nr. & A0128157A & A.... \\
 \section*{1. Introduction}
 
 \section*{2. Design}
+The design of the program is as followed: There is a main class called TextProcessor which waits for input and calls the Action class that the user enters. All classes that should be executed by TextProcessor have to inherit the Action-Interface that provides a method called execute(). For the task in this assignment we provided a class KWIC that inherits the Action interface and implements the execute-Method.
+The KWIC class itself contains the execute-Method, a method getKWIC which first rotates the String array then sorts it alphabetically and then saves the results into a text file.
+
+We also implemented a simple text file reader and writer that can be used for extended classes as well. The class diagram of our program is shown in figure \ref{fig1}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance = 5cm, auto]
+% draw nodes
+\node [block, text width=10em,rectangle split, rectangle split parts=2] (main) {TextProcessor 
+\nodepart{second}main(); \\ runAction(String);};
+\node [block,rectangle split, rectangle split parts=2, right of=main] (interface) {Action
+\nodepart{second}execute();};
+\node [block, text width=10em,rectangle split, rectangle split parts=2, below of=interface] (kwic) [below =-3cm] {KWIC
+\nodepart{second}execute();\\ getKWIC();\\ stringRotate(String); \\ ...};
+\node [block,rectangle split, rectangle split parts=2, right of=kwic] (other) {...
+\nodepart{second}execute();\\ ...};
+\node[draw=white,right of=other](dots)[right=-1.6cm]{...};
+%draw arrows
+\path [line,dashed] (kwic) -- (interface);
+\path [line,dashed] (other) -- (interface);
+\path [line,dashed] (dots) -- (interface);
+\path [line] (main) -- (interface);
+\end{tikzpicture}
+\caption{Diagram of the program structure.}
+\label{fig1}
+\end{figure}
 
 \section*{3. Limitations and Benefits}
 \end{document}
