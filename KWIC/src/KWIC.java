@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class KWIC implements Action{
 	
@@ -42,13 +41,13 @@ public class KWIC implements Action{
 		
 		String[] resultStrings = new String[processedList.size()];
 		processedList.toArray(resultStrings);
-		return Arrays.toString(resultStrings).replaceAll(",", System.lineSeparator());
+		String kwicResult = Arrays.toString(resultStrings).replaceAll(",", System.lineSeparator());
+		return kwicResult.replace("[", ""). replace("]", "");
 	}
 	
 	// For a single title, finds all possible KWIC
 	public ArrayList<String> stringRotate(String title) {
 		ArrayList<String> wordList = new ArrayList<String>();
-		
 		String[] tokens = title.split(" ");
 		for (int i = 0; i < tokens.length; i++) {
 			if (!isNonKey(tokens[i])) {
@@ -90,8 +89,7 @@ public class KWIC implements Action{
 		for (String word : fileContent) {
 			// All words to ignore are converted to uppercase
 			ignoreList.add(word.toUpperCase());
-		}
-		
+		}	
 	}
 	
 	
@@ -101,13 +99,10 @@ public class KWIC implements Action{
 	 * @throws IOException 
 	 */
 	private void getTitleList(String filepath) throws IOException {
-		titleList = new ArrayList<String>();
 		if (filepath == "") return;
 		SimpleFileReader reader = new SimpleFileReader(filepath);
 		String [] fileContent = reader.fileContent.split(System.lineSeparator());
-		for (String title : fileContent) {
-			titleList.add(title);
-		}
+		titleList = new ArrayList<String>(Arrays.asList(fileContent));
 	}
 	
 	
@@ -117,6 +112,6 @@ public class KWIC implements Action{
 	 * @throws IOException 
 	 */
 	private void setResult(String kwicOfTitles, String loc) throws IOException {
-		SimpleFileWriter writer = new SimpleFileWriter(kwicOfTitles, loc + "_result");
+		new SimpleFileWriter(kwicOfTitles, loc + "_result");
 	}
 }
