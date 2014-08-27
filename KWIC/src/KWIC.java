@@ -1,7 +1,9 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class KWIC implements Action{
+	
 	private static ArrayList<String> ignoreList;
 	private static ArrayList<String> titleList;
 	private static final String INVALID_ARGUMENT = "Invalid syntax. Usage: KWIC [title file] [words to ignore file]";
@@ -11,6 +13,7 @@ public class KWIC implements Action{
 	public String execute(String[] args) {
 		if(!isArgumentValid(args)){
 			return INVALID_ARGUMENT;
+
 		}
 		getTitleList(args[0]);
 		getWordsToIgnore(args[1]);
@@ -74,20 +77,44 @@ public class KWIC implements Action{
 		return word;
 	}
 	
-	public boolean isNonKey(String word) {
+	private boolean isNonKey(String word) {
 		return ignoreList.contains(word.toUpperCase());
 	}
 	
-	// All words to ignore are converted to uppercase
-	private void getWordsToIgnore(String fileName) {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("A");
-		ignoreList = list;
+	/**
+	 * Calls the SimpleFileReader to read out the words to ignore from a file.
+	 * @param filepath
+	 */
+	private void getWordsToIgnore(String filepath) {
+		ignoreList = new ArrayList<String>();
+		if (filepath == "") return;
+		try {
+			SimpleFileReader reader = new SimpleFileReader(filepath);
+			String [] fileContent = reader.fileContent.split(System.lineSeparator());
+			for (String word : fileContent) {
+				// All words to ignore are converted to uppercase
+				ignoreList.add(word.toUpperCase());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void getTitleList(String fileName) {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("A apple a Day Dkeeps dkeeps a doctor away");
-		titleList = list;
+	/**
+	 * Calls the SimpleFileReader to read the titles for KWIC from a given file.
+	 * @param filepath
+	 */
+	private void getTitleList(String filepath) {
+		titleList = new ArrayList<String>();
+		if (filepath == "") return;
+		try {
+			SimpleFileReader reader = new SimpleFileReader(filepath);
+			String [] fileContent = reader.fileContent.split(System.lineSeparator());
+			for (String title : fileContent) {
+				titleList.add(title);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
