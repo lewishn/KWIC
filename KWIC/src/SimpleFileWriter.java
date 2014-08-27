@@ -1,4 +1,6 @@
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -10,22 +12,24 @@ import java.io.IOException;
  *
  */
 public class SimpleFileWriter {
-
-	private String[] fileContent; 
+	private String fileContent;
+	private String filePath;
 	
-	public SimpleFileWriter(String[] textToWrite) throws IOException {
+	public SimpleFileWriter(String textToWrite, String fileLocation) throws IOException {
 		fileContent = textToWrite;
+		filePath = fileLocation;
 		if (textToWrite != null)
 			writeTextToFile();
 	}
 	
 	private void writeTextToFile() throws IOException{
-		FileWriter fw = new FileWriter("Documents/Result_Of_KWIC");
-		BufferedWriter bw = new BufferedWriter(fw);
-		for (String line : fileContent) {
-			bw.write(line);
-			bw.newLine();
-		}
-		bw.close();
+		File file = new File (filePath);
+		file.createNewFile();
+		
+		FileWriter fw = new FileWriter(file);
+		fw.write(fileContent);
+		fw.flush();
+		fw.close();
+		
 	}
 }

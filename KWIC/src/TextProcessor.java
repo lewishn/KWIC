@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 
 public class TextProcessor {
@@ -19,12 +20,14 @@ public class TextProcessor {
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
 				long startTime = System.currentTimeMillis();
-				((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
+				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
 				long endTime = System.currentTimeMillis();
-				System.out.println("Done! That took " + (endTime - startTime) + " milliseconds");
+				printFeedback("Done! That took " + (endTime - startTime) + " milliseconds");
 			} else {
 				feedback = "Error, no such program";
 			}
+		} catch (IOException e) {
+			feedback = "Files specified do not exist";
 		} catch (Exception e) {
 			feedback = "There seems to be an error. Please try again.";
 		} finally {

@@ -14,10 +14,14 @@ public class KWIC implements Action{
 		if(!isArgumentValid(args)){
 			return INVALID_ARGUMENT;
 
+		} else {
+			getTitleList(args[0]);
+			getWordsToIgnore(args[1]);
+			String result = getKwicList();
+			setResult(result, args[0]);
+			//return result;
+			return "";
 		}
-		getTitleList(args[0]);
-		getWordsToIgnore(args[1]);
-		return getKwicList();
 	}
 	
 	private boolean isArgumentValid(String[] arguments) {
@@ -30,13 +34,16 @@ public class KWIC implements Action{
 	//Returns an ArrayList of the KWIC in sorted order
 	private String getKwicList() {
 		ArrayList<String> processedList = new ArrayList<String>();
-		for (int i = 0 ; i < titleList.size(); i++) {
+		for (int i = 0 ; i < titleList.size(); i++) {			
 			processedList.addAll(stringRotate(titleList.get(i)));
 		}
 		
-		processedList.sort(new SortWithoutCase());
+		System.out.println(processedList.size());
 		Collections.sort(processedList);
-			
+		for (String s : processedList) {
+			System.out.println(s);
+		}
+		
 		return getCombinedKwicList(processedList);
 	}
 	
@@ -72,8 +79,7 @@ public class KWIC implements Action{
 			word += tokens[i] + " ";
 		}
 		word = word.substring(0, word.lastIndexOf(" "));
-		
-		return word;
+		return new String(word);
 	}
 	
 	private boolean isNonKey(String word) {
@@ -89,12 +95,13 @@ public class KWIC implements Action{
 	private void getWordsToIgnore(String filepath) throws IOException {
 		ignoreList = new ArrayList<String>();
 		if (filepath == "") return;
-			SimpleFileReader reader = new SimpleFileReader(filepath);
-			String [] fileContent = reader.fileContent.split(System.lineSeparator());
-			for (String word : fileContent) {
-				// All words to ignore are converted to uppercase
-				ignoreList.add(word.toUpperCase());
-			}
+		SimpleFileReader reader = new SimpleFileReader(filepath);
+		String [] fileContent = reader.fileContent.split(System.lineSeparator());
+		for (String word : fileContent) {
+			// All words to ignore are converted to uppercase
+			ignoreList.add(word.toUpperCase());
+		}
+		
 	}
 	
 	
@@ -106,11 +113,11 @@ public class KWIC implements Action{
 	private void getTitleList(String filepath) throws IOException {
 		titleList = new ArrayList<String>();
 		if (filepath == "") return;
-			SimpleFileReader reader = new SimpleFileReader(filepath);
-			String [] fileContent = reader.fileContent.split(System.lineSeparator());
-			for (String title : fileContent) {
-				titleList.add(title);
-			}
+		SimpleFileReader reader = new SimpleFileReader(filepath);
+		String [] fileContent = reader.fileContent.split(System.lineSeparator());
+		for (String title : fileContent) {
+			titleList.add(title);
+		}
 	}
 	
 	
@@ -119,9 +126,7 @@ public class KWIC implements Action{
 	 * @param kwicOfTitles
 	 * @throws IOException 
 	 */
-	private void setResult(ArrayList<String> kwicOfTitles) throws IOException {
-		String[] textToWrite = new String[kwicOfTitles.size()];
-		kwicOfTitles.toArray(textToWrite);
-			SimpleFileWriter writer = new SimpleFileWriter(textToWrite);
+	private void setResult(String kwicOfTitles, String loc) throws IOException {
+		SimpleFileWriter writer = new SimpleFileWriter(kwicOfTitles, loc + "_result");
 	}
 }

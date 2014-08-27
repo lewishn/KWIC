@@ -20,7 +20,7 @@ public class TestReader {
 		try {
 			SimpleFileReader fr = new SimpleFileReader(args[0]);
 			System.out.println(fr.fileContent);
-			SimpleFileWriter fw = new SimpleFileWriter(fr.fileContent.split(System.lineSeparator()));
+			SimpleFileWriter fw = new SimpleFileWriter(fr.fileContent, args[0]+"_result");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
