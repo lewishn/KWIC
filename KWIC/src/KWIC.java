@@ -1,41 +1,58 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class KWIC implements Action{
 	
 	private static ArrayList<String> ignoreList;
 	private static ArrayList<String> titleList;
+	private static final String INVALID_ARGUMENT = "Invalid syntax. Usage: KWIC [title file] [words to ignore file]";
 	
-	public void execute() throws IOException {
-		// TODO: enter the file path
-		getWordsToIgnore("Documents/WordsToIgnore");
-		getTitleList("Documents/Titles_1000");
-		getKWIC();
-	}
-	
-	private void getKWIC() throws IOException {
-		ArrayList<String> kwicOfTitles = new ArrayList<String>();
-		for (int i = 0 ; i < titleList.size(); i++) {
-			kwicOfTitles.addAll(stringRotate(titleList.get(i)));
-		}
-		// Sort the output alphabetically
-		kwicOfTitles.sort(new SortWithoutCase());
-		
-//		for (int i = 0; i< kwicOfTitles.size(); i++) {
-//			System.out.println(kwicOfTitles.get(i));
-//		}
-		
-		//write the result in a new file.
-		setResult(kwicOfTitles);
-	}
-	
+	//first argument : filename of titles
+	//second argument: filename of words to ignore
+	public String execute(String[] args) throws IOException{
+		if(!isArgumentValid(args)){
+			return INVALID_ARGUMENT;
 
-	private ArrayList<String> stringRotate(String stringToRotate) {
+		}
+		getTitleList(args[0]);
+		getWordsToIgnore(args[1]);
+		return getKwicList();
+	}
+	
+	private boolean isArgumentValid(String[] arguments) {
+		if (arguments.length != 2) {
+			return false;
+		}
+		return true;
+	}
+	
+	//Returns an ArrayList of the KWIC in sorted order
+	private String getKwicList() {
+		ArrayList<String> processedList = new ArrayList<String>();
+		for (int i = 0 ; i < titleList.size(); i++) {
+			processedList.addAll(stringRotate(titleList.get(i)));
+		}
+		
+		processedList.sort(new SortWithoutCase());
+		Collections.sort(processedList);
+			
+		return getCombinedKwicList(processedList);
+	}
+	
+	private String getCombinedKwicList (ArrayList<String> list) {
+		String titles = "";
+		for (String s: list) {
+			titles += s + "\n";
+		}
+		return titles;
+	}
+	
+	// For a single title, finds all possible KWIC
+	public ArrayList<String> stringRotate(String title) {
 		ArrayList<String> wordList = new ArrayList<String>();
 		
-		String[] tokens = stringToRotate.split(" ");
+		String[] tokens = title.split(" ");
 		for (int i = 0; i < tokens.length; i++) {
 			if (!isNonKey(tokens[i])) {
 				wordList.add(stringRecombine(tokens, i));
@@ -44,6 +61,7 @@ public class KWIC implements Action{
 		return wordList;
 	}
 	
+	//Returns the recombined rotated title
 	private String stringRecombine(String[] tokens, int index) {
 		// Keyword must start with upper case letter
 		String word = tokens[index].substring(0, 1).toUpperCase() + tokens[index].substring(1) + " ";
@@ -62,6 +80,7 @@ public class KWIC implements Action{
 		return ignoreList.contains(word.toUpperCase());
 	}
 	
+	
 	/**
 	 * Calls the SimpleFileReader to read out the words to ignore from a file.
 	 * @param filepath
@@ -78,6 +97,7 @@ public class KWIC implements Action{
 			}
 	}
 	
+	
 	/**
 	 * Calls the SimpleFileReader to read the titles for KWIC from a given file.
 	 * @param filepath
@@ -92,6 +112,7 @@ public class KWIC implements Action{
 				titleList.add(title);
 			}
 	}
+	
 	
 	/**
 	 * Writes the result of KWIC into a file.

@@ -1,5 +1,5 @@
 import java.io.IOException;
 
 public interface Action {
-	public void execute() throws IOException;
+	public String execute(String[] arguments) throws IOException;
 }
