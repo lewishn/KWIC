@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class KWIC implements Action{
@@ -36,18 +37,12 @@ public class KWIC implements Action{
 		for (int i = 0 ; i < titleList.size(); i++) {			
 			processedList.addAll(stringRotate(titleList.get(i)));
 		}
+		// Sorts the list alphabetically
+		processedList.sort(new SortWithoutCase());
 		
-		Collections.sort(processedList);
-		
-		return getCombinedKwicList(processedList);
-	}
-	
-	private String getCombinedKwicList (ArrayList<String> list) {
-		String titles = "";
-		for (String s: list) {
-			titles += s + "\n";
-		}
-		return titles;
+		String[] resultStrings = new String[processedList.size()];
+		processedList.toArray(resultStrings);
+		return Arrays.toString(resultStrings).replaceAll(",", System.lineSeparator());
 	}
 	
 	// For a single title, finds all possible KWIC

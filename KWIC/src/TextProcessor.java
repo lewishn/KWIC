@@ -20,7 +20,7 @@ public class TextProcessor {
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
 				long startTime = System.currentTimeMillis();
-				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
+				((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
 				long endTime = System.currentTimeMillis();
 				printFeedback("Done! That took " + (endTime - startTime) + " milliseconds");
 			} else {
