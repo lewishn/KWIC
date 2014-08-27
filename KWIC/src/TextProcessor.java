@@ -18,7 +18,10 @@ public class TextProcessor {
 			Class actionClass = Class.forName(args[0]);
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
-				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
+				long startTime = System.currentTimeMillis();
+				((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
+				long endTime = System.currentTimeMillis();
+				System.out.println("Done! That took " + (endTime - startTime) + " milliseconds");
 			} else {
 				feedback = "Error, no such program";
 			}

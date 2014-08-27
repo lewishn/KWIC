@@ -20,7 +20,7 @@ public class SimpleFileWriter {
 	}
 	
 	private void writeTextToFile() throws IOException{
-		FileWriter fw = new FileWriter("Result_Of_KWIC");
+		FileWriter fw = new FileWriter("Documents/Result_Of_KWIC");
 		BufferedWriter bw = new BufferedWriter(fw);
 		for (String line : fileContent) {
 			bw.write(line);
