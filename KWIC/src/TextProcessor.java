@@ -16,14 +16,15 @@ public class TextProcessor {
 	private static void runAction(String[] args) {
 		String feedback = "";
 		try {
-			Class actionClass = Class.forName(args[0]);
+			Class<?> actionClass = Class.forName(args[0]);
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
 				long startTime = System.currentTimeMillis();
 				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
+				if (feedback.length() > 1000)
+					feedback = "";
 				long endTime = System.currentTimeMillis();
-				feedback += "\n" + (endTime - startTime);
-				printFeedback("Done! That took " + (endTime - startTime) + " milliseconds");
+				printFeedback("Done! That took " + (endTime - startTime) + " milliseconds.");
 			} else {
 				feedback = "Error, no such program";
 			}
@@ -36,7 +37,7 @@ public class TextProcessor {
 		}
 	}
 	
-	private static void printFeedback(String s) {
+	public static void printFeedback(String s) {
 		System.out.println(s);
 	}
 }

@@ -1,6 +1,4 @@
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -15,6 +13,12 @@ public class SimpleFileWriter {
 	private String fileContent;
 	private String filePath;
 	
+	/**
+	 * Constructor that gets the text to write and the location where to store the text.
+	 * @param textToWrite
+	 * @param fileLocation
+	 * @throws IOException
+	 */
 	public SimpleFileWriter(String textToWrite, String fileLocation) throws IOException {
 		fileContent = textToWrite;
 		filePath = fileLocation;
@@ -22,15 +26,19 @@ public class SimpleFileWriter {
 			writeTextToFile();
 	}
 	
+	/**
+	 * writes the text to write in a file using FileWriter. If there is any problem with 
+	 * the file path it throws an IOException.
+	 * @throws IOException
+	 */
 	private void writeTextToFile() throws IOException{
 		File file = new File (filePath);
 		file.createNewFile();
 		
 		FileWriter fw = new FileWriter(file);
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(fileContent);
-		bw.flush();
-		bw.close();
+		fw.write(fileContent);
+		fw.flush();
+		fw.close();
 		
 	}
 }
