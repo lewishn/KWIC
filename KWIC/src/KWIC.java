@@ -20,10 +20,19 @@ public class KWIC implements Action{
 		} else {
 			getTitleList(args[0]);
 			getWordsToIgnore(args[1]);
-			String result = getKwicList();
+			ArrayList<String> unsortedResult = CircularShift.getKwicList(titleList);
+			String result = Alphabetizer.combinedSortedList(unsortedResult);
 			setResult(result, args[0]);
 			return result;
 		}
+	}
+	
+	public static ArrayList<String> getIgnoreList() {
+		return ignoreList;
+	}
+	
+	public static ArrayList<String> getTitleList() {
+		return titleList;
 	}
 	
 	/**
@@ -35,65 +44,7 @@ public class KWIC implements Action{
 		return arguments.length == 2;
 	}
 	
-	/**
-	 * Returns an ArrayList of the KWIC in sorted order
-	 * @return
-	 */
-	private String getKwicList() {
-		ArrayList<String> processedList = new ArrayList<String>();
-		for (int i = 0 ; i < titleList.size(); i++) {			
-			processedList.addAll(stringRotate(titleList.get(i)));
-		}
-		
-		// Sorts the list alphabetically
-		Collections.sort(processedList);
-	
-		String[] resultStrings = new String[processedList.size()];
-		processedList.toArray(resultStrings);
-		String kwicResult = Arrays.toString(resultStrings).replaceAll(",", System.lineSeparator());
 
-		return kwicResult.replace("[", ""). replace("]", "");
-	}
-	
-	/**
-	 *  For a single title, finds all possible KWIC
-	 * @param title
-	 * @return
-	 */
-	public ArrayList<String> stringRotate(String title) {
-		ArrayList<String> wordList = new ArrayList<String>();
-		String[] tokens = title.split(" ");
-		for (int i = 0; i < tokens.length; i++) {
-			if (!isNonKey(tokens[i])) {
-				wordList.add(stringRecombine(tokens, i));
-			}
-		}
-		return wordList;
-	}
-	
-	/**
-	 * Returns the recombined rotated title
-	 * @param tokens
-	 * @param index
-	 * @return
-	 */
-	private String stringRecombine(String[] tokens, int index) {
-		// Keyword must start with upper case letter
-		String word = tokens[index].substring(0, 1).toUpperCase() + tokens[index].substring(1) + " ";
-		for (int i = index + 1; i < tokens.length; i++) {
-			word += tokens[i] + " ";
-		}
-		for (int i = 0; i < index; i++) {
-			word += tokens[i] + " ";
-		}
-		word = word.substring(0, word.lastIndexOf(" "));
-		return new String(word);
-	}
-	
-	private boolean isNonKey(String word) {
-		return ignoreList.contains(word.toUpperCase());
-	}
-	
 	
 	/**
 	 * Calls the SimpleFileReader to read out the words to ignore from a file.
@@ -110,7 +61,6 @@ public class KWIC implements Action{
 			ignoreList.add(word.toUpperCase());
 		}
 	}
-	
 	
 	/**
 	 * Calls the SimpleFileReader to read the titles for KWIC from a given file.
