@@ -17,7 +17,7 @@ public class Alphabetizer {
 		return combineListToString(sort(list));
 	}
 	
-	public static ArrayList<String> sort(ArrayList<String> list) {
+	private static ArrayList<String> sort(ArrayList<String> list) {
 		Collections.sort(list, new SortWithoutCase());
 		return list;
 	}

@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 
 public class CircularShift {
@@ -22,7 +20,7 @@ public class CircularShift {
 	 * @param title
 	 * @return
 	 */
-	public static ArrayList<String> stringRotate(String title) {
+	private static ArrayList<String> stringRotate(String title) {
 		ArrayList<String> wordList = new ArrayList<String>();
 		String[] tokens = title.split(" ");
 		for (int i = 0; i < tokens.length; i++) {

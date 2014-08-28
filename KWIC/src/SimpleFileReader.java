@@ -9,7 +9,13 @@ import java.nio.file.Paths;
  */
 public class SimpleFileReader {
 	
+	/**
+	 * String of the filename with path.
+	 */
 	private String filename;
+	/**
+	 * The content of the read file in a simple String.
+	 */
 	public String fileContent = "";
 
 	/**

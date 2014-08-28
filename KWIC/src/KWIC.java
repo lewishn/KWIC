@@ -1,11 +1,16 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class KWIC implements Action{
 	
+	/**
+	 * List of words to ignore.
+	 */
 	private static ArrayList<String> ignoreList;
+	/**
+	 * List of titles for computing KWIC.
+	 */
 	private static ArrayList<String> titleList;
 	private static final String INVALID_ARGUMENT = "Invalid syntax. Usage: KWIC [title file] [words to ignore file]";
 	
@@ -27,10 +32,20 @@ public class KWIC implements Action{
 		}
 	}
 	
+	/**
+	 * Getter returns the list of words to ignore without reading it from a file.
+	 * Could be null if the program hasn't read something from a file before.
+	 * @return
+	 */
 	public static ArrayList<String> getIgnoreList() {
 		return ignoreList;
 	}
 	
+	/**
+	 * Getter returns the list of titles without reading it from a file.
+	 * Could be null if the program hasn't read something from a file before.
+	 * @return
+	 */
 	public static ArrayList<String> getTitleList() {
 		return titleList;
 	}
