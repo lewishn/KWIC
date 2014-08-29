@@ -1,12 +1,22 @@
+/**
+ * The main class
+ * @author Lewis Haris Nata A0099727J
+ *
+ */
+
 import java.io.IOException;
 import java.util.Arrays;
 
 public class TextProcessor {
-	private static final String USAGE_PROMPT = "Usage: [TextProcessor] [Program name] [Arguments]";
+	private static final String MESSAGE_NO_PROGRAM = "Error, no such program";
+	private static final String MESSAGE_IO_ERROR = "Files specified do not exist";
+	private static final String MESSAGE_ERROR = "There seems to be an error. Please try again.";
+	private static final String MESSAGE_USAGE_PROMPT = "Usage: [TextProcessor] [Program name] [Arguments]";
+	private static final String MESSAGE_PROGRAM_RUN_TIME = "Done! That took %s milliseconds.";
 	
 	public static void main(String[] args) {
 		if (args.length == 0) {
-			System.out.println(USAGE_PROMPT);
+			printFeedback(MESSAGE_USAGE_PROMPT);
 		} else {
 			runAction(args);
 		}
@@ -14,27 +24,23 @@ public class TextProcessor {
 		System.exit(0);
 	}
 	private static void runAction(String[] args) {
-		String feedback = "";
 		try {
 			Class<?> actionClass = Class.forName(args[0]);
 			Object action = actionClass.getConstructor().newInstance();
 			if (action instanceof Action) {
 				long startTime = System.currentTimeMillis();
-				feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
-				if (feedback.length() > 1000)
-					feedback = "";
+				String feedback = ((Action) action).execute(Arrays.copyOfRange(args, 1, args.length));
 				long endTime = System.currentTimeMillis();
-				printFeedback("Done! That took " + (endTime - startTime) + " milliseconds.");
+				printFeedback(feedback);
+				printFeedback(String.format(MESSAGE_PROGRAM_RUN_TIME, endTime - startTime));
 			} else {
-				feedback = "Error, no such program";
+				printFeedback(MESSAGE_NO_PROGRAM);
 			}
 		} catch (IOException e) {
-			feedback = "Files specified do not exist";
+			printFeedback(MESSAGE_IO_ERROR);
 		} catch (Exception e) {
-			feedback = "There seems to be an error. Please try again.";
-		} finally {
-			printFeedback(feedback);
-		}
+			printFeedback(MESSAGE_ERROR);
+		} 
 	}
 	
 	public static void printFeedback(String s) {

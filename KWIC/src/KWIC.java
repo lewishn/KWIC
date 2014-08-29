@@ -3,20 +3,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class KWIC implements Action{
-	
-	/**
-	 * List of words to ignore.
-	 */
 	private static ArrayList<String> ignoreList;
-	/**
-	 * List of titles for computing KWIC.
-	 */
 	private static ArrayList<String> titleList;
 	private static final String INVALID_ARGUMENT = "Invalid syntax. Usage: KWIC [title file] [words to ignore file]";
 	
 	/**
 	 * first argument : filename of titles
 	 * second argument: filename of words to ignore
+	 * @author Lewis Haris Nata A0099727J
 	 */
 	public String execute(String[] args) throws IOException{
 		if(!isArgumentValid(args)){
@@ -36,6 +30,7 @@ public class KWIC implements Action{
 	 * Getter returns the list of words to ignore without reading it from a file.
 	 * Could be null if the program hasn't read something from a file before.
 	 * @return
+	 * @author Lewis Haris Nata A0099727J
 	 */
 	public static ArrayList<String> getIgnoreList() {
 		return ignoreList;
@@ -45,6 +40,7 @@ public class KWIC implements Action{
 	 * Getter returns the list of titles without reading it from a file.
 	 * Could be null if the program hasn't read something from a file before.
 	 * @return
+	 * @author Lewis Haris Nata A0099727J
 	 */
 	public static ArrayList<String> getTitleList() {
 		return titleList;
@@ -54,6 +50,7 @@ public class KWIC implements Action{
 	 * Gives back a boolean: if the incoming string array has exactly 2 entries, that bool is true.
 	 * @param arguments
 	 * @return
+	 * @author Lewis Haris Nata A0099727J
 	 */
 	private boolean isArgumentValid(String[] arguments) {
 		return arguments.length == 2;
@@ -61,10 +58,13 @@ public class KWIC implements Action{
 	
 
 	
+	
+	
 	/**
 	 * Calls the SimpleFileReader to read out the words to ignore from a file.
 	 * @param filepath
-	 * @throws IOException 
+	 * @throws IOException
+	 * @author Meike Aichele A0128157A 
 	 */
 	private void getWordsToIgnore(String filepath) throws IOException {
 		ignoreList = new ArrayList<String>();
@@ -81,6 +81,7 @@ public class KWIC implements Action{
 	 * Calls the SimpleFileReader to read the titles for KWIC from a given file.
 	 * @param filepath
 	 * @throws IOException 
+	 * @author Meike Aichele A0128157A
 	 */
 	private void getTitleList(String filepath) throws IOException {
 		if (filepath == "") return;
@@ -94,6 +95,7 @@ public class KWIC implements Action{
 	 * Writes the result of KWIC into a file.
 	 * @param kwicOfTitles
 	 * @throws IOException 
+	 * @author Meike Aichele A0128157A
 	 */
 	private void setResult(String kwicOfTitles, String loc) throws IOException {
 		new SimpleFileWriter(kwicOfTitles, loc + "_result");
